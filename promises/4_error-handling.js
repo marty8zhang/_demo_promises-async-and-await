@@ -91,7 +91,7 @@ setTimeout(() => {
 
 /**
  * Chaining with error handling.
- * Note: If to return/re-thrown anything or not; if to return a `Promise` or a value, etc., are totally optional to
+ * Note: If to return/re-throw anything or not; if to return a `Promise` or a value, etc., are totally optional to
  * `.then()` and `.catch()`.
 */
 // asyncThing1().then(function() {
