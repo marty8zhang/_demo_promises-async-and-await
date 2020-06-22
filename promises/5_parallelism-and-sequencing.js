@@ -1,5 +1,16 @@
 'use strict'
 
+const urls = []
+
+function fetchData (url) {
+  // @see `2_promisify-xmlhttprequest.js` - `httpGet()` as an example.
+  // return new Promise(...)
+}
+
+function addToPage (data) {
+  // Some DOM operations with the given data.
+}
+
 /*
  * A random fetch.
  * `forEach` isn't async-aware. This results in the data being added in an unpredictable order, which depends on the
@@ -31,7 +42,7 @@ urls.forEach(url => {
 
 // The more elegant sequential fetch version.
 urls.reduce((sequence, url) => {
-  return equence.then(() => {
+  return sequence.then(() => {
     return fetchData(url)
   }).then(data => {
     addToPage(data)
@@ -40,7 +51,7 @@ urls.reduce((sequence, url) => {
 
 // The parallel fetch version, which won't break the order.
 Promise.all(() => {
-  urls.map(fetchData(url))
+  urls.map(fetchData)
 }).then(arrayOfData => {
   arrayOfData.forEach(data => {
     addToPage(data)
@@ -54,7 +65,7 @@ Promise.all(() => {
  */
 // `map()` fires up all fetches, since each fetch is a `Promise`, they become parallel and returned as an array of
 // `Promise`s.
-urls.map(fetchData(url))
+urls.map(fetchData)
   // We then `reduce()` the `Promise`s array and chain their rendering sequentially.
   .reduce((sequence, promiseOfFetch) => {
     return sequence.then(() => promiseOfFetch)
