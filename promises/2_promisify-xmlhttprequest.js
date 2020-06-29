@@ -1,5 +1,20 @@
 'use strict'
 
+function updatePageMessage (message) {
+  const messageElement = document.getElementById('message')
+
+  messageElement.textContent = message
+}
+
+function addImageToPage (imageSrc) {
+  const divMain = document.getElementById('main')
+  const image = document.createElement('img')
+
+  image.src = imageSrc
+
+  divMain.appendChild(image)
+}
+
 function httpGet (url) {
   return new Promise(function (resolve, reject) {
     const request = new XMLHttpRequest()
@@ -28,20 +43,18 @@ function httpGet (url) {
 }
 
 const imageBlobHandler = (imageBlob) => {
-  const divMain = document.getElementById('main')
-  const image = document.createElement('img')
+  updatePageMessage('Image retrieved. Attaching...')
 
   const blob = new Blob([imageBlob], { type: 'image/jpeg' })
   const fileReader = new FileReader()
 
   fileReader.onload = () => {
-    image.src = fileReader.result.toString()
+    addImageToPage(fileReader.result.toString())
   }
 
   fileReader.readAsDataURL(blob)
 
-  console.log('Attaching image...')
-  divMain.appendChild(image)
+  updatePageMessage('Image attached.')
 }
 
 const errorHandler = (result) => console.log(result)
@@ -49,7 +62,7 @@ const errorHandler = (result) => console.log(result)
 // Note: The results won't always be shown in the same order as the requests, which is the characteristic
 // while working with promises.
 // `Attaching image...`. An image should be displayed on the webpage too.
-httpGet('https://i.picsum.photos/id/689/200/200.jpg').then(imageBlobHandler, errorHandler)
+httpGet('https://picsum.photos/200/200').then(imageBlobHandler, errorHandler)
 
 // `Error: "Not Found"`.
 httpGet('https://i.picsum.photos/no-existing-image.jpg').then(imageBlobHandler, errorHandler)
